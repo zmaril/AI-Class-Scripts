@@ -53,12 +53,10 @@ def prob5(n):
 
     return dumbluck
 
-def fact(n):
-    if n==1 or n==0:
-        return 1
-    return fact(n-1)*n
+#Other verision pointed out by charles
+def prob5b():
+    return reduce(lcm,range(1,21))
 
-print prob5(20)
 # the function to calculate the GCD
 def gcd(num1, num2):
     if num1 > num2:
@@ -84,7 +82,7 @@ def lcm(num1, num2):
     result = num1*num2/gcd(num1,num2)
     return result
 
-##Correct
+##Correct. There is a way to compute this directly given a n.
 def prob6():
     sumsquare = sum([math.pow(x,2) for x in range(101)]) 
     squaresum = math.pow(sum([x for x in range(101)]),2)
@@ -138,6 +136,7 @@ def prob8():
         if current > greatest:
             greatest=current
     return greatest
+
 ##Correct
 def prob9():
     return [a*b*c 
@@ -146,17 +145,30 @@ def prob9():
             for a in range(b) 
             if a+b+c==1000 and math.pow(a,2)+math.pow(b,2)==math.pow(c,2)]
 
-def print_timing(func):
-    def wrapper(*arg):
-        t1 = time.time()
-        res = func(*arg)
-        t2 = time.time()
-        print '%s took %0.3f ms' % (func.func_name, (t2-t1)*1000.0)
-        return res
-    return wrapper
-
 ##Correct but slow
 def prob10():
     raws = [2]
     raws.extend(range(3,2000000,2))
     return sum(filter(lambda x: isPrime(x), raws))
+
+##Fast attempt at prime wheel factorization. 
+def prob10b():
+    print 2+3+sum(wheelPrimes(2000000))
+
+##Starts at 5 and then works its way up the chain up to, but not including, n. Uses wheel factorization, with a period of 30 (2*3*5). So, it looks at 5,7,11,13,17,19,23,29,31,35 and then repeats the same pattern over again. Too lazy to try to figure out a larger wheel right now. Probably going to program a computer to do it later. fv
+def wheelPrimes(n):
+    wheelList = [2,4,2,4,2,4,6,2,4]
+    wheelIndex = 0
+    counter = 5
+    primes = []
+    while counter<n:
+        if isPrime(counter):
+            primes.append(counter)
+        counter += wheelList[wheelIndex]
+        wheelIndex = (wheelIndex + 1)% len(wheelList)
+    return primes
+
+##Test to see if the things are working correctly in comparsion. zip is a neat function that takes two lists and produces a list of tupes of the corresponding elements. Filter takes a function that returns true or false and a list, then removes the elements from the list which don't return true. 
+def test():                              
+    return zip(wheelPrimes(2000), filter(isPrime,range(5,2000,2)))
+    
