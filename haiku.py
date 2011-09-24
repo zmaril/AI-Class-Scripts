@@ -21,7 +21,7 @@ fives = []
 sevens= [] 
 
 def process():
-    for title in ["sense","pride","zola","flatland"]: #Just Zola seems to provide the most Zen haikus. 
+    for title in ["pride"]: #["sense","pride","zola","flatland"]: #Just Zola seems to provide the most Zen haikus. 
         text = open(title+".txt").read()
         filtered = filter(lambda letter: not letter in ";,'\"\r\n",text)
         sentences=filtered.replace("Mr.","Mr").replace("Mrs.","Mrs").split(".")
@@ -36,7 +36,7 @@ def process():
 def newHaiku():
     i = random.randint(0,len(fives)-1)
     j = random.randint(0,len(sevens)-1)
-    k=random.randint(0,len(fives)-1)
+    k = random.randint(0,len(fives)-1)
     while len(fives)>1 and k==i:
         k=random.randint(0,len(fives)-1)
     
