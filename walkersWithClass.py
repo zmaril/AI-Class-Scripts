@@ -82,7 +82,7 @@ while running:
     if event.type == pygame.QUIT:
         running = 0
 
-    #Go through all the walkers and move those bad boys
+    #Go through all the walkers and move those bad boys 
     for w in walkers:    
         w.nextMove(screen)
 
